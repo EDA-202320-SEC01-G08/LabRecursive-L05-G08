@@ -31,6 +31,7 @@ import gc
 import controller
 from DISClib.ADT import list as lt
 assert cf
+import threading
 
 """
 La vista se encarga de la interacción con el usuario
@@ -217,7 +218,7 @@ def menu_cycle():
         elif int(inputs) == 8:
             # TODO modificar opcion 8 del menu (parte 2)
             result = controller.getBooksAverageRating(control,
-            recursive=rec)
+                                                      recursive=rec)
             delta_time = f"{result[0]:.3f}"
             average = result[1]
             print("===== El rating promedio de los libros es: =====")
@@ -270,4 +271,8 @@ def menu_cycle():
 # main del ejercicio
 if __name__ == "__main__":
     # TODO modificar main para reserar memoria (parte 2)
+    threading.stack_size(67108864*2)
+    sys.setrecursionlimit(default_limit*1000000)
+    thread = threading.Thread(target=menu_cycle)
+    thread.start()
     menu_cycle()
